@@ -1,12 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addLevelAction, editedLevelAction, removeLevelAction } from "../../Store/reducers/levels";
+import {addLevelAction,editedLevelAction,removeLevelAction}from "../../Store/reducers/levels";
 import { Row, Col, Button, Table, Card, Form } from "react-bootstrap";
-
 const Level = () => {
 	const dispatch = useDispatch();
 	const levels = useSelector((state) => state.levels.levels);
-	// const initialValue = useSelector((state) => state.levels.initailValue);
 	const [sortLevels, setSortLevels] = useState(levels);
 	const [updatingId, setUpdatingId] = useState(null);
 	const searchInputRef = useRef();
@@ -16,7 +14,6 @@ const Level = () => {
 
 	const handleSearch = () => {
 		const value = String(searchInputRef.current.value).toLocaleLowerCase();
-
 		const sortedLevels = levels.filter((level) =>
 			String(level.label).toLowerCase().includes(value),
 		);
@@ -26,13 +23,12 @@ const Level = () => {
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
-
 		const { name, salary } = evt.target.elements;
 		if (!updatingId) {
 			const newLevels = {
 				id: levels[levels.length - 1]?.id + 1 || 1,
 				label: name.value.trim(),
-				salary: +salary.value.trim(),
+				salary: +Math.abs(salary.value.trim()),
 			};
 			dispatch(addLevelAction(newLevels));
 		} else {
@@ -43,7 +39,7 @@ const Level = () => {
 					salary: +salary.value.trim(),
 				}),
 			);
-            setUpdatingId(null)
+			setUpdatingId(null);
 		}
 		evt.target.reset();
 	};
@@ -53,13 +49,10 @@ const Level = () => {
 	};
 	const handleEdit = (id) => {
 		const level = levels.find((item) => item?.id === id);
-		document.querySelector("#add > input:nth-child(1)").value =
-			level?.label;
-		document.querySelector("#add > input.mt-2.form-control").value =
-			level?.salary;
+		document.querySelector("#add > input:nth-child(1)").value = level?.label;
+		document.querySelector("#add > input.mt-2.form-control").value = level?.salary;
 		setUpdatingId(id);
 	};
-	// console.log(handleEdit);
 
 	return (
 		<>
@@ -76,12 +69,10 @@ const Level = () => {
 									onChange={handleSearch}
 								/>
 							</Col>
-
 							<Col md='4'>
 								<div className='h2 text-center'>Lavozim</div>
 							</Col>
 						</Row>
-
 						<div className='table-responsive-sm table-responsive-md'>
 							<Table
 								className='text-center'
@@ -138,18 +129,16 @@ const Level = () => {
 						<div className='card-header'>
 							<h5>Ilmiy daraja qo'shish</h5>
 						</div>
-
 						<div className='card-body'>
 							<Form
 								id='add'
 								onSubmit={handleSubmit}>
 								<Form.Control
 									type='text'
-									placeholder='Lavozim'
+									placeholder='Ilmiy daraja'
 									name='name'
 									required
 								/>
-
 								<Form.Control
 									className='mt-2'
 									type='text'
@@ -159,7 +148,6 @@ const Level = () => {
 								/>
 							</Form>
 						</div>
-
 						<div className='card-footer'>
 							<Button
 								className='float-end'

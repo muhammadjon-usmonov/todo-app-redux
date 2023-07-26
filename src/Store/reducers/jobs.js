@@ -1,5 +1,3 @@
-/** @format */
-
 const initialValue = {
 	jobs: [
 		{
@@ -16,13 +14,6 @@ const initialValue = {
 	initailValue: null,
 };
 
-export const editLevel = (text) => {
-	const action = {
-		type: "EDIT_LEVEL",
-	};
-	return action;
-};
-
 export const jobs = (state = initialValue, action) => {
 	switch (action.type) {
 		case "ADD_JOB":
@@ -33,10 +24,11 @@ export const jobs = (state = initialValue, action) => {
 				jobs: state.jobs.filter((job) => job.id !== action.payload),
 			};
 		case "EDIT_JOB": {
-      console.log(action.payload);  
 			return {
 				...state,
-				initailValue: state.jobs?.find(item => item?.id === action.payload),
+				initailValue: null,
+				jobs: state.jobs?.map((item) =>
+					item.id === action.payload.id ? action.payload : item),
 			};
 		}
 		default:

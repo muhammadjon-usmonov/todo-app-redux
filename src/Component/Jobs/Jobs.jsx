@@ -1,6 +1,4 @@
-/** @format */
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Button, Table, Card, Form } from "react-bootstrap";
 import { addJobAction, removeJobAction, editedJobs } from "../../Store/reducers/jobs";
@@ -12,8 +10,7 @@ const Jobs = () => {
 	const [updatingId, setUpdatingId] = useState(null);
 	const [sortJobs, setSortJobs] = React.useState(jobs);
 	const searchInputRef = React.useRef();
-
-	React.useEffect(() => {
+	useEffect(() => {
 		setSortJobs(jobs);
 	}, [jobs]);
 
@@ -35,7 +32,7 @@ const Jobs = () => {
 			const newJob = {
 				id: jobs[jobs.length - 1]?.id + 1 || 1,
 				label: name.value.trim(),
-				salary: salary.value.trim(),
+				salary: +Math.abs(salary.value.trim()),
 			};
 			dispatch(addJobAction(newJob));
 		} else {
@@ -48,21 +45,16 @@ const Jobs = () => {
 			);
             setUpdatingId(null)
 		}
-
 		evt.target.reset();
 	};
 
 	const handleRemove = (id) => {
-		dispatch(removeJobAction(Number(id)));
-	};
+		dispatch(removeJobAction(Number(id)))};
   const handleEdit = (id) => {
 		const job = jobs.find((item) => item?.id === id);
-		document.querySelector("#add > input:nth-child(1)").value =
-			job?.label;
-		document.querySelector("#add > input.mt-2.form-control").value =
-			job?.salary;
-		setUpdatingId(id);
-	};
+		document.querySelector("#add > input:nth-child(1)").value = job?.label;
+		document.querySelector("#add > input.mt-2.form-control").value = job?.salary;
+		setUpdatingId(id)};
 	return (
 		<Row>
 			<Col md='9'>
@@ -77,12 +69,10 @@ const Jobs = () => {
 								onChange={handleSearch}
 							/>
 						</Col>
-
 						<Col md='4'>
 							<div className='h2 text-center'>Lavozim</div>
 						</Col>
 					</Row>
-
 					<div className='table-responsive-sm table-responsive-md'>
 						<Table
 							className='text-center'
@@ -95,7 +85,6 @@ const Jobs = () => {
 									<th>Edit/Delete</th>
 								</tr>
 							</thead>
-
 							<tbody>
 								{!!sortJobs.length &&
 									sortJobs.map((job) => {
@@ -122,8 +111,7 @@ const Jobs = () => {
 													</Button>
 												</td>
 											</tr>
-										);
-									})}
+										)})}
 							</tbody>
 						</Table>
 					</div>
@@ -135,7 +123,6 @@ const Jobs = () => {
 					<div className='card-header'>
 						<h5>Lavozim qo'shish</h5>
 					</div>
-
 					<div className='card-body'>
 						<Form
 							id='add'
@@ -146,7 +133,6 @@ const Jobs = () => {
 								name='name'
 								required
 							/>
-
 							<Form.Control
 								className='mt-2'
 								type='text'
@@ -156,7 +142,6 @@ const Jobs = () => {
 							/>
 						</Form>
 					</div>
-
 					<div className='card-footer'>
 						<Button 
 							className='float-end'
@@ -179,5 +164,4 @@ const Jobs = () => {
 		</Row>
 	);
 };
-
 export default Jobs;

@@ -31,28 +31,13 @@ export const levels = (state = initialValue, action) => {
 				),
 			};
 
-		case "EDIT_LEVEL_ACTION": {
-			console.log(
-				action.payload,
-				state.levels?.find((item) => item?.id === action.payload),
-			);
-			return {
-				...state,
-				initailValue: state.levels?.find(
-					(item) => item?.id === action.payload,
-				),
-			};
-		}
-
 		case "EDITED_ACTION": {
 			return {
 				...state,
 				initailValue: null,
 				levels: state.levels?.map((item) =>
-					item.id === action.payload.id ? action.payload : item,
-				),
-			};
-		}
+					item.id === action.payload.id ? action.payload : item),
+				} }
 
 		default:
 			return state;

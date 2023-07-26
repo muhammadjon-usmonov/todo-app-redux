@@ -1,23 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Button, Table, Card, Form } from "react-bootstrap";
-
-import {
-  addWorkerAction,
-  removeWorkerAction,
-} from "../../Store/reducers/workers";
-
+import {addWorkerAction,removeWorkerAction,}from "../../Store/reducers/workers";
 import "./Main.css";
-
 const Main = () => {
   const dispatch = useDispatch();
-
   const jobs = useSelector((state) => state.jobs.jobs);
   const levels = useSelector((state) => state.levels.levels);
   const workers = useSelector((state) => state.workers.workers);
-
   const [sortWorkers, setSortWorkers] = React.useState(workers);
-
   const searchInputRef = React.useRef();
 
   React.useEffect(() => {
@@ -26,33 +17,25 @@ const Main = () => {
 
   const handleSearch = () => {
     const value = String(searchInputRef.current.value).toLowerCase();
-
     const sortedWorkers = workers.filter((worker) => {
       const arrayValues = Object.values(worker).map((worker) =>
         String(worker).toLowerCase()
       );
-
       let isExists = false;
-
       arrayValues.forEach((arrayValue) => {
         if (String(arrayValue).includes(value)) {
           isExists = true;
         }
       });
-
       return isExists;
     });
-
     setSortWorkers(sortedWorkers);
-
     return;
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
     const { name, lastname, phone, job, level } = evt.target.elements;
-
     const newWorker = {
       id: workers[workers.length - 1]?.id + 1 || 1,
       name: name.value.trim(),
@@ -62,9 +45,7 @@ const Main = () => {
       level: levels.find((item) => item.id === Number(level.value.trim()))
         .label,
     };
-
     dispatch(addWorkerAction(newWorker));
-
     evt.target.reset();
   };
 
